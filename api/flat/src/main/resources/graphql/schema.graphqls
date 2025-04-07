@@ -1,0 +1,76 @@
+scalar Long
+
+type UserDetailsResponse {
+    userDetails: CustomUserDetails
+}
+
+type Query {
+    me: UserDetailsResponse
+    meSecurity: UserSecurityDetailsResponse
+    meProfile: ProfileResponse
+}
+
+type CustomUserDetails {
+    sub: String
+    emailVerified: Boolean
+    allowedOrigins: [String]
+    roles: [String]
+    issuer: String
+    preferredUsername: String
+    givenName: String
+    familyName: String
+    sid: String
+    acr: String
+    azp: String
+    scope: String
+    name: String
+    email: String
+    exp: Long
+    iat: Long
+    jti: String
+}
+
+type UserSecurityDetailsResponse {
+    sessions: [Session]
+    credentials: [CredentialsDto]
+}
+
+type Session {
+    id: String
+    username: String
+    userId: String
+    ipAddress: String
+    start: Long
+    lastAccess: Long
+    rememberMe: Boolean
+    clients: [Client]
+    transientUser: Boolean
+}
+
+type Client {
+    clientId: String
+    clientName: String
+}
+
+type CredentialsDto {
+    id: String
+    type: String
+    userLabel: String
+    createdDate: Long
+    secretData: String
+    credentialData: String
+}
+
+type ProfileResponse {
+    family_name: String
+    given_name: String
+    middle_name: String
+    nickname: String
+    birthdate: String
+    gender: String
+    website: String
+    locale: String
+    picture: String
+    zoneinfo: String
+    updated_at: String
+}

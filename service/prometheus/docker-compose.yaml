@@ -1,0 +1,39 @@
+services:
+  prometheus:
+    image: prom/prometheus:v3.0.1
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:9090:9090"
+    command:
+      - "--web.enable-lifecycle"
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    volumes:
+      - prometheus_data:/data
+      - ${CONFIG_BASE_PATH}/service/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ${CONFIG_BASE_PATH}/service/prometheus/alert.rules:/etc/prometheus/alert.rules:ro
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:9090/-/healthy
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+    networks:
+      - service_prometheus
+      - gateway_network
+      - service_keycloak_network
+      - service_postgres_network
+
+volumes:
+  prometheus_data:
+    driver: local
+
+networks:
+  service_prometheus:
+    external: true
+  gateway_network:
+    external: true
+  service_keycloak_network:
+    external: true
+  service_postgres_network:
+    external: true

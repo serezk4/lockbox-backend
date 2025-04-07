@@ -1,0 +1,23 @@
+server:
+  port: 8080
+  http2:
+    enabled: true
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/plain
+    min-response-size: 1024
+  ssl:
+    enabled: false
+
+logging:
+  level:
+    jakarta:
+      httpclient: DEBUG
+    org:
+      flywaydb: DEBUG
+      keycloak: DEBUG
+    io.r2dbc.postgresql.QUERY: DEBUG
+    io.r2dbc.postgresql.PARAM: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
+    web: debug

@@ -1,0 +1,49 @@
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: unless-stopped
+    env_file:
+      - ${CONFIG_BASE_PATH}/service/minio/minio.env
+    ports:
+      - "0.0.0.0:9000:9000"
+      - "0.0.0.0:9001:9001"
+    volumes:
+      - ~/docker/volumes/minio:/data
+      - /etc/ssl/lockboxes:/root/.minio/certs:ro
+    command: server /data --console-address ":9001" --certs-dir "/root/.minio/certs"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9001/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - service_fss
+
+  createbuckets:
+    image: minio/mc
+    container_name: minio-createbuckets
+    env_file:
+      - ${CONFIG_BASE_PATH}/service/minio/minio.env
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      
+      echo 'Waiting for MinIO to become available...';
+      while ! /usr/bin/mc alias set myminio http://minio:9000 $${MINIO_ROOT_USER} $${MINIO_ROOT_PASSWORD} 2>/dev/null; do
+        echo 'MinIO not ready yet... retrying in 3 seconds';
+        sleep 3;
+      done;      echo $${MINIO_ROOT_USER};
+      
+      echo 'MinIO is now available!';
+      /usr/bin/mc mb myminio/avatars;
+      /usr/bin/mc policy set public myminio/avatars;
+      exit 0;
+      "
+    networks:
+        - service_fss
+
+networks:
+  service_fss:
+    external: true

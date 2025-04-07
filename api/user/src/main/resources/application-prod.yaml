@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  http2:
+    enabled: false
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/plain
+    min-response-size: 1024
+  ssl:
+    enabled: false
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-store-type: ${KEY_STORE_TYPE}
+    key-alias: ${KEY_ALIAS}
+    key-store: ${KEY_STORE}

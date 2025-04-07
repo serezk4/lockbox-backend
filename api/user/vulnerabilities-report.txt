@@ -1,0 +1,28 @@
+Java vector incubator module is not readable. For optimal vector performance, pass '--add-modules jdk.incubator.vector' to enable Vector API.
+Generating report for project user-api
+Found 25 vulnerabilities in project user-api
+
+
+One or more dependencies were identified with known vulnerabilities in user-api:
+
+commons-io-2.11.0.jar (pkg:maven/commons-io/commons-io@2.11.0, cpe:2.3:a:apache:commons_io:2.11.0:*:*:*:*:*:*:*) : CVE-2024-47554
+guava-31.0.1-jre.jar (pkg:maven/com.google.guava/guava@31.0.1-jre, cpe:2.3:a:google:guava:31.0.1:*:*:*:*:*:*:*) : CVE-2023-2976, CVE-2020-8908
+netty-common-4.1.111.Final.jar (pkg:maven/io.netty/netty-common@4.1.111.Final, cpe:2.3:a:netty:netty:4.1.111:*:*:*:*:*:*:*) : CVE-2024-47535
+spring-aop-6.1.11.jar (pkg:maven/org.springframework/spring-aop@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-beans-6.1.11.jar (pkg:maven/org.springframework/spring-beans@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-context-6.1.11.jar (pkg:maven/org.springframework/spring-context@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-context-support-6.1.11.jar (pkg:maven/org.springframework/spring-context-support@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-core-6.1.11.jar (pkg:maven/org.springframework/spring-core@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-expression-6.1.11.jar (pkg:maven/org.springframework/spring-expression@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-jcl-6.1.11.jar (pkg:maven/org.springframework/spring-jcl@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-jdbc-6.1.11.jar (pkg:maven/org.springframework/spring-jdbc@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-messaging-6.1.11.jar (pkg:maven/org.springframework/spring-messaging@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-oxm-6.1.11.jar (pkg:maven/org.springframework/spring-oxm@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-r2dbc-6.1.11.jar (pkg:maven/org.springframework/spring-r2dbc@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-security-config-6.3.1.jar (pkg:maven/org.springframework.security/spring-security-config@6.3.1, cpe:2.3:a:pivotal_software:spring_security:6.3.1:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_security:6.3.1:*:*:*:*:*:*:*) : CVE-2024-38810
+spring-security-web-6.3.1.jar (pkg:maven/org.springframework.security/spring-security-web@6.3.1, cpe:2.3:a:pivotal_software:spring_security:6.3.1:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_security:6.3.1:*:*:*:*:*:*:*, cpe:2.3:a:web_project:web:6.3.1:*:*:*:*:*:*:*) : CVE-2024-38821
+spring-tx-6.1.11.jar (pkg:maven/org.springframework/spring-tx@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38820
+spring-web-6.1.11.jar (pkg:maven/org.springframework/spring-web@6.1.11, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:web_project:web:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38809
+spring-webflux-6.1.11.jar (pkg:maven/org.springframework/spring-webflux@6.1.11, cpe:2.3:a:pivotal_software:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:springsource:spring_framework:6.1.11:*:*:*:*:*:*:*, cpe:2.3:a:vmware:spring_framework:6.1.11:*:*:*:*:*:*:*) : CVE-2024-38816, CVE-2024-38820
+swagger-ui-5.13.0.jar: swagger-ui-bundle.js (pkg:javascript/DOMPurify@3.0.11) : CVE-2024-45801, CVE-2024-47875
+swagger-ui-5.13.0.jar: swagger-ui-es-bundle.js (pkg:javascript/DOMPurify@3.0.11) : CVE-2024-45801, CVE-2024-47875

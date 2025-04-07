@@ -1,0 +1,34 @@
+name: Lint and run tests for API modules
+
+on:
+  [push]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '21'
+
+      - name: Discover and run tests in API modules
+        run: |
+          for dir in $(find api -mindepth 1 -maxdepth 1 -type d); do
+            echo "Processing $dir"
+            if [ -f "$dir/Makefile" ]; then
+              echo "Found Makefile in $dir. Running lint and tests..."
+              make -C "$dir" lint || exit 1
+              make -C "$dir" test || exit 1
+            elif [ -f "$dir/prepare.sh" ]; then
+              echo "Found prepare.sh in $dir. Running tests..."
+              bash "$dir/prepare.sh" || exit 1
+            else
+              echo "No Makefile or prepare.sh found in $dir. Skipping..."
+            fi
+          done

@@ -1,0 +1,66 @@
+services:
+  redis:
+    image: redis:latest
+    restart: on-failure
+    container_name: flat-api-redis
+    env_file:
+      - ${CONFIG_BASE_PATH}/api/flats/secret/redis-secret.env
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+    networks:
+      - api_flat_network
+
+  flat-api:
+  # todo remove registry id from compose
+    image: cr.yandex/crpa0c9avqe31tmi0mfu/lockbox_flat-api:latest
+    container_name: flat-api
+    build:
+      context: .
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: on-failure
+    ports:
+      - "8343:8080"
+    env_file:
+      # component related env
+      - ${CONFIG_BASE_PATH}/api/flats/secret/postgres.env
+      - ${CONFIG_BASE_PATH}/api/flats/secret/redis-secret.env
+      - ${CONFIG_BASE_PATH}/api/ssl.env
+      # service related env
+      - ${CONFIG_BASE_PATH}/service/postgres/postgres.env
+      - ${CONFIG_BASE_PATH}/service/keycloak/realm.env
+      - ${CONFIG_BASE_PATH}/service/keycloak/secret/client.env
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+    volumes:
+      - ssl-certs:/etc/ssl/certs:ro
+      - /etc/ssl/lockboxes:/etc/ssl/lockboxes
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/flats/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      start_period: 15s
+      retries: 5
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - api_flat_network
+      - service_keycloak_network
+      - service_postgres_network
+
+volumes:
+  ssl-certs:
+  postgres_data:
+
+networks:
+  api_flat_network:
+    external: true
+  service_keycloak_network:
+    external: true
+  service_postgres_network:
+    external: true

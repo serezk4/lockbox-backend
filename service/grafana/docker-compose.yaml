@@ -1,0 +1,33 @@
+services:
+  grafana:
+    image: grafana/grafana:11.4.0
+    restart: unless-stopped
+    container_name: grafana
+    ports:
+      - "0.0.0.0:4040:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ${CONFIG_BASE_PATH}/service/grafana/provisioning:/etc/grafana/provisioning
+      - ${CONFIG_BASE_PATH}/service/grafana/custom.ini:/etc/grafana/custom.ini
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: true
+    healthcheck:
+      test: curl --fail -s http://localhost:3000/api/health || exit 1
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+    networks:
+      - service_grafana
+      - service_prometheus
+
+volumes:
+  grafana_data:
+
+networks:
+  service_prometheus:
+    external: true
+  service_grafana:
+    external: true

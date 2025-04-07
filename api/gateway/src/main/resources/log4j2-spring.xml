@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="60" asyncLogger="true">
+    <Properties>
+        <Property name="LOG_PATTERN">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %logger{36} - %msg%n%throwable
+        </Property>
+        <Property name="FILE_PATTERN">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%level] [%t] [%c{1}] - %msg%n%throwable</Property>
+
+        <Property name="LOG_DIR">/tmp/logs</Property>
+        <Property name="LOG_FILE">app.log</Property>
+
+        <Property name="LOGSTASH_HOST">logstash</Property>
+        <Property name="LOGSTASH_PORT">5000</Property>
+
+        <Property name="SERVICE_NAME">gateway</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </Console>
+
+        <RollingFile name="FileAppender"
+                     fileName="${LOG_DIR}/${LOG_FILE}"
+                     filePattern="${LOG_DIR}/%d{yyyy-MM-dd}/app-%i.log.gz"
+                     createOnDemand="true">
+            <PatternLayout pattern="${FILE_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <Socket name="LogstashAppender"
+                host="${LOGSTASH_HOST}"
+                port="${LOGSTASH_PORT}"
+                protocol="TCP">
+            <JsonLayout complete="false" compact="true" eventEol="true">
+                <KeyValuePair key="service" value="${SERVICE_NAME}"/>
+            </JsonLayout>
+        </Socket>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="LogstashAppender"/>
+        </Root>
+
+        <Logger name="com.lockbox" level="DEBUG" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="LogstashAppender"/>
+        </Logger>
+
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="LogstashAppender"/>
+        </Logger>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,44 @@
+services:
+  kibana:
+    image: kibana:8.5.1
+    container_name: kibana
+    env_file:
+      - ${CONFIG_BASE_PATH}/service/kibana/.env
+    ports:
+      - "0.0.0.0:5601:5601"
+    networks:
+      - service_elk
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -fs http://localhost:5601/api/status || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: "1g"
+        reservations:
+          cpus: "0.25"
+          memory: "512m"
+      restart_policy:
+        condition: on-failure
+    labels:
+      - "com.lockbox.description=Kibana Service"
+    volumes:
+      - /etc/ssl/lockboxes:/usr/share/kibana/config/certs
+      #- ${CONFIG_BASE_PATH}/service/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - /Users/serezk4/docker/volumes/kibana:/usr/share/kibana/data
+
+networks:
+  service_elk:
+    external: true

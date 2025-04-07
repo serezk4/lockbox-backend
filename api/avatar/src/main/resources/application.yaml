@@ -1,0 +1,52 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+  endpoint:
+    health:
+      show-details: always
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+s3:
+  access-key: ${MINIO_ROOT_USER}
+  secret-key: ${MINIO_ROOT_PASSWORD}
+  region: ${S3_REGION:ru-central1}
+  bucket: ${MINIO_DEFAULT_BUCKETS:avatars}
+  expDefault: ${S3_EXP_DEFAULT:360000}
+
+spring:
+  application:
+    name: 'avatar-service'
+  main:
+    web-application-type: reactive
+  webflux:
+    base-path: /avatars
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            jwk-set-uri: ${KC_ISSUER_URI}/${KC_REALM}/protocol/openid-connect/certs
+
+  cache:
+    type: redis
+
+  data:
+    redis:
+      port: ${REDIS_PORT}
+      host: ${REDIS_HOST}
+
+  jackson:
+    deserialization:
+      fail-on-ignored-properties: false
+    serialization:
+      indent-output: false
+      write-dates-as-timestamps: false
+      write-bigdecimal-as-plain: true
+    date-format: yyyy-MM-dd'T'HH:mm:ss
+    property-naming-strategy: SNAKE_CASE

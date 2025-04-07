@@ -1,0 +1,47 @@
+services:
+  elasticsearch:
+    image: elasticsearch:8.5.1
+    container_name: elasticsearch
+    env_file:
+      - ${CONFIG_BASE_PATH}/service/elasticsearch/.env
+    ports:
+      - "0.0.0.0:9200:9200"
+      - "0.0.0.0:9300:9300"
+    volumes:
+      - ~/docker/volumes/elasticsearch:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - service_elk
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9200/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: "1g"
+        reservations:
+          cpus: "0.25"
+          memory: "512m"
+      restart_policy:
+        condition: on-failure
+    labels:
+      - "com.example.description=Elasticsearch Service"
+
+networks:
+  service_elk:
+    external: true

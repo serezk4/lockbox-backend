@@ -1,0 +1,43 @@
+services:
+  logstash:
+    image: logstash:8.17.1
+    container_name: logstash
+    env_file:
+      - ${CONFIG_BASE_PATH}/service/logstash/.env
+    volumes:
+      - ${CONFIG_BASE_PATH}/service/logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ~/docker/volumes/logstash:/usr/share/logstash/data
+      - /etc/ssl/lockboxes:/etc/ssl/lockboxes
+    ports:
+      - "0.0.0.0:5044:5044"
+      - "0.0.0.0:9600:9600"
+    networks:
+      - service_elk
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9600/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: "1g"
+        reservations:
+          cpus: "0.25"
+          memory: "512m"
+      restart_policy:
+        condition: on-failure
+
+networks:
+  service_elk:
+    external: true

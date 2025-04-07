@@ -1,0 +1,5 @@
+server.ssl.enabled: false #true
+server.ssl.certificate: "/usr/share/kibana/config/certs/tls.crt"
+server.ssl.key: "/usr/share/kibana/config/certs/tls.key"
+server.ssl.certificateAuthorities: "/usr/share/kibana/config/certs/chain.pem"
+server.ssl.clientAuthentication: none

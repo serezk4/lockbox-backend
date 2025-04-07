@@ -1,0 +1,91 @@
+management:
+  metrics:
+    enable:
+      gateway: true
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+  endpoint:
+    health:
+      show-details: always
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+spring:
+  application:
+    name: 'gateway'
+  main:
+    web-application-type: reactive
+  webflux:
+    base-path: /
+
+  cloud:
+    config:
+      enabled: false
+    gateway:
+      default-filters:
+        - name: AddResponseHeader
+          args:
+            name: Strict-Transport-Security
+            value: max-age=31536000; includeSubDomains; preload
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: account-service
+          uri: http://user-api:8080
+          predicates:
+            - Path=/accounts/**
+          filters:
+            - TokenRelay
+        - id: box-service
+          uri: http://box-api:8080
+          predicates:
+            - Path=/boxes/**
+          filters:
+            - TokenRelay
+        - id: flat-service
+          uri: http://flat-api:8080
+          predicates:
+            - Path=/flats/**
+          filters:
+            - TokenRelay
+        - id: avatar-service
+          uri: http://avatar-api:8080
+          predicates:
+            - Path=/avatars/**
+          filters:
+            - TokenRelay
+
+
+  data:
+    redis:
+      port: ${REDIS_PORT:6379}
+      host: ${REDIS_HOST:redis}
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${KC_ISSUER_URI}/${KC_REALM}
+            jwk-set-uri: ${KC_ISSUER_URI}/${KC_REALM}/protocol/openid-connect/certs
+        registration:
+          keycloak:
+            client-id: ${KC_CLIENT_ID}
+            client-secret: ${KC_CLIENT_SECRET}
+            authorization-grant-type: ${KC_AUTHORIZATION_GRANT_TYPE}
+
+  jackson:
+    deserialization:
+      fail-on-ignored-properties: false
+    serialization:
+      indent-output: false
+      write-dates-as-timestamps: false
+      write-bigdecimal-as-plain: true
+    date-format: yyyy-MM-dd'T'HH:mm:ss
+    property-naming-strategy: SNAKE_CASE

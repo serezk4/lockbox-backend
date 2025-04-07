@@ -1,0 +1,42 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0
+    container_name: keycloak
+    restart: unless-stopped
+    env_file:
+      - ${CONFIG_BASE_PATH}/service/keycloak/secret/admin.env
+      - ${CONFIG_BASE_PATH}/service/keycloak/keycloak.env
+      - ${CONFIG_BASE_PATH}/service/keycloak/cert.env
+    ports:
+      - "0.0.0.0:8443:8443"
+      - "127.0.0.1:9228:9000"
+    healthcheck:
+      test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000;echo -e 'GET /health/ready HTTP/1.1\r\nhost: http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;" ]
+      interval: 10s
+      timeout: 10s
+      start_period: 15s
+      retries: 5
+    command:
+      - "start-dev"
+      - "--hostname=https://api.lockboxes.ru:8443"
+      - "--import-realm"
+      - "--https-certificate-file=/etc/ssl/lockboxes/tls.crt"
+      - "--https-certificate-key-file=/etc/ssl/lockboxes/tls.key"
+      - "--metrics-enabled=true"
+    volumes:
+      - ${CONFIG_BASE_PATH}/service/keycloak/realm:/opt/keycloak/data/import
+      - ${CONFIG_BASE_PATH}/service/keycloak/themes:/opt/keycloak/themes 
+      - ${CONFIG_BASE_PATH}/service/keycloak/providers:/opt/keycloak/providers/
+      - /etc/ssl/lockboxes:/etc/ssl/lockboxes
+    networks:
+      - service_keycloak_network
+      - service_postgres_network
+
+volumes:
+  postgres_data:
+
+networks:
+  service_keycloak_network:
+    external: true
+  service_postgres_network:
+    external: true

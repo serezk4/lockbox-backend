@@ -1,0 +1,76 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+  endpoint:
+    health:
+      show-details: always
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+spring:
+  application:
+    name: 'account-service'
+  main:
+    web-application-type: reactive
+  webflux:
+    base-path: /accounts
+
+  cloud:
+    config:
+      enabled: false
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            jwk-set-uri: ${KC_ISSUER_URI}/${KC_REALM}/protocol/openid-connect/certs
+
+  r2dbc:
+    url: r2dbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    out-of-order: true
+    schemas: ${POSTGRES_DATABASE}
+    locations: classpath:db/migration/dev
+    user: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
+
+  cache:
+    type: redis
+
+  data:
+    redis:
+      port: ${REDIS_PORT}
+      host: ${REDIS_HOST}
+
+  jackson:
+    deserialization:
+      fail-on-ignored-properties: false
+    serialization:
+      indent-output: false
+      write-dates-as-timestamps: false
+      write-bigdecimal-as-plain: true
+    date-format: yyyy-MM-dd'T'HH:mm:ss
+    property-naming-strategy: SNAKE_CASE
+
+
+keycloak:
+  server:
+    url: ${KC_SERVER_URL}
+  admin:
+    username: ${KEYCLOAK_ADMIN}
+    password: ${KEYCLOAK_ADMIN_PASSWORD}
+  realm: ${KC_REALM}
+  realm-link: ${KC_SERVER_URL}/realms/${KC_REALM}
+  client-id: ${KC_CLIENT_ID}
+  client-secret: ${KC_CLIENT_SECRET}
