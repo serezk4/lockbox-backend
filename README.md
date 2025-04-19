@@ -1,4 +1,9 @@
-# 📦 Backend <a href="https://null.postman.co/collection/32870866-1881bbe9-0bb4-4d0a-84bb-f5f1034d9593?source=rip_html&active-environment=32870866-8b30cab7-9b05-4f61-b71e-1349663a67b2"> <img alt="Run in Postman" src="https://run.pstmn.io/button.svg"> </a>
+![Image alt](https://github.com/LockBox-for-business/frontend/blob/dev/lockbox-frontend/public/logo_full.svg)
+# Backend-module
+
+## Description
+
+
 
 ## Launch Guide
 
@@ -20,22 +25,37 @@ sh start.sh
 ├── README.md
 ├── api
 │   ├── Makefile
+│   ├── avatar
 │   ├── box
 │   ├── config
 │   ├── flat
+│   ├── gateway
 │   └── user
+├── doc
+│   └── file-api.md
 ├── env
 │   ├── dev
 │   └── prod
 ├── prepare.sh
 ├── service
 │   ├── Makefile
+│   ├── elsticsearch
+│   ├── grafana
 │   ├── keycloak
+│   ├── kibana
+│   ├── logstash
 │   ├── minio
-│   └── postgres
-└── start.sh
+│   ├── postgres
+│   └── prometheus
+├── start.sh
+└── tests
+    ├── endpoint
+    ├── load
+    ├── requirements.txt
+    ├── test_results.json
+    └── test_results_protected.json
 
-13 directories, 5 files
+24 directories, 9 files
 ```
 
 ### Module Links
@@ -43,6 +63,8 @@ sh start.sh
   - [Box](./api/box)
   - [Flat](./api/flat)
   - [User](./api/user)
+  - [Avatar](./api/avatar)
+  - [Gateway](./api/gateway)
 - **Environment Configurations**:
   - [Development](./env/dev)
   - [Production](./env/prod)
@@ -50,6 +72,11 @@ sh start.sh
   - [Keycloak](./service/keycloak)
   - [MinIO](./service/minio)
   - [PostgreSQL](./service/postgres)
+  - [Elk](./service/elsticsearch)
+  - [Kibana](./service/kibana)
+  - [logstash](./service/logstash)
+  - [grafana](./service/grafana)
+  - [prometheus](./service/prometheus)
 
 ---
 
