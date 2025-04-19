@@ -1,7 +1,16 @@
 ![Image alt](logo_full.svg)
 # Backend-module
 
-## Description
+Property managers and rental platforms today struggle with fragmented systems—listings live in one database, tenant applications in another, and physical access control remains a manual, error‑prone process. This disconnect leads to double bookings, delayed check‑ins, and security risks when lockbox codes are shared out of band. Our service eliminates these pain points by seamlessly uniting apartment metadata, booking workflows, and real‑time IoT lockbox telemetry into a single reactive microservices platform. It ensures that every booking automatically triggers code generation and status updates, provides live availability and access control, and scales elastically to meet peak demand—all without manual intervention or data silos.
+
+## Features
+- Reactive architecture with Spring WebFlux and Project Reactor delivers ultra‑low latency and high throughput under peak loads.
+- Out‑of‑the‑box geospatial search using PostgreSQL’s earth_distance enables instant and precise radius‑based apartment queries.
+- Universal API: supports both REST and GraphQL for maximum flexibility when integrating with web and mobile applications.
+- Flexible filtering by area, room count, price range, status, amenities, and keywords for personalized recommendations and higher conversion rates.
+- Enterprise‑grade security: JWT authentication via Keycloak, custom converters, and centralized error handling ensure data protection and regulatory compliance.
+- Horizontal scalability with a non‑blocking R2DBC driver and reactive model—no bottlenecks as demand grows.
+- Rapid rollout: a ready‑made stack (Spring Boot + MapStruct + Lombok) reduces development time and accelerates adaptation to your business processes.
 
 
 
@@ -79,6 +88,11 @@ sh start.sh
   - [prometheus](./service/prometheus)
 
 ---
+
+## 
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Dependencies
 
