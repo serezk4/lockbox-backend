@@ -1,4 +1,4 @@
-![Image alt](https://github.com/LockBox-for-business/frontend/blob/dev/lockbox-frontend/public/logo_full.svg)
+![Image alt](logo_full.svg)
 # Backend-module
 
 ## Description
